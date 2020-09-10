@@ -340,11 +340,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mat: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
-  meridians: 6
-  height: 5
-  ray: 1
-  columns: 0
-  rows: 0
+  meridians: 10
+  height: 10
+  ray: 5
 --- !u!1 &1663902898
 GameObject:
   m_ObjectHideFlags: 0
