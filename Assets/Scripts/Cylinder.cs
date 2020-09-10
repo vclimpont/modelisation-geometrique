@@ -10,9 +10,6 @@ public class Cylinder : MonoBehaviour
     public int height = 0;
     public int ray = 0;
 
-    public int columns;
-    public int rows;
-
     private Vector3[] vertices;
     private int[] triangles;
 
