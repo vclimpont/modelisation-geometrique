@@ -23,7 +23,7 @@ public class Cylinder : MonoBehaviour
         gameObject.AddComponent<MeshRenderer>();
 
         int v = (meridians * 2) + 2; // nb of vertices
-        int t = meridians * 8; // nb of points used to build triangles
+        int t = meridians * 12; // nb of points used to build triangles
         vertices = new Vector3[v];
         triangles = new int[t];
 
@@ -35,7 +35,7 @@ public class Cylinder : MonoBehaviour
             Debug.Log(j + " : " + vertices[j]);
         }
 
-        int k = 0;
+        int k = 0; // couvercle haut
         for (int i = 1; i <= meridians; i++)
         {
             triangles[k] = 0;
@@ -53,23 +53,61 @@ public class Cylinder : MonoBehaviour
             k += 3;
         }
 
-        int k2 = meridians * 3;
+        int k2 = meridians * 3; // couvercle bas 
         for (int i = meridians + 2; i <= meridians * 2 + 1; i++)
         {
             triangles[k2] = meridians + 1;
             triangles[k2 + 1] = i;
 
-            if (i == meridians * 2 + 1)
+            if (i == meridians + 2)
             {
-                triangles[k2 + 2] = i - (meridians - 1);
+                triangles[k2 + 2] = i + (meridians - 1);
             }
             else
             {
-                triangles[k2 + 2] = i + 1;
+                triangles[k2 + 2] = i - 1;
             }
 
             k2 += 3;
         }
+
+        int k3 = meridians * 6; // faces triangles 1
+        for (int i = 1; i <= meridians; i++)
+        {
+            triangles[k3] = i;
+            triangles[k3 + 1] = i + meridians + 1;
+
+            if (i == meridians)
+            {
+                triangles[k3 + 2] = i + 2;
+            }
+            else
+            {
+                triangles[k3 + 2] = i + meridians + 2;
+            }
+
+            k3 += 3;
+        }
+
+        int k4 = meridians * 9; // faces triangles 2
+        for (int i = 1; i <= meridians; i++)
+        {
+            triangles[k4] = i;
+
+            if (i == meridians)
+            {
+                triangles[k4 + 1] = meridians + 2;
+                triangles[k4 + 2] = i - (meridians - 1);
+            }
+            else
+            {
+                triangles[k4 + 1] = i + meridians + 2;
+                triangles[k4 + 2] = i + 1;
+            }
+
+            k4 += 3;
+        }
+
 
         Mesh msh = new Mesh();                          // Création et remplissage du Mesh
 
