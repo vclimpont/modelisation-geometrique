@@ -23,7 +23,7 @@ public class Cylinder : MonoBehaviour
         gameObject.AddComponent<MeshRenderer>();
 
         int v = (meridians * 2) + 2; // nb of vertices
-        int t = meridians * 12; // nb of points used to build triangles
+        int t = meridians * 8; // nb of points used to build triangles
         vertices = new Vector3[v];
         triangles = new int[t];
 
@@ -32,44 +32,43 @@ public class Cylinder : MonoBehaviour
 
         for (int j = 0; j < vertices.Length; j++)
         {
-            Debug.Log(vertices[j]);
+            Debug.Log(j + " : " + vertices[j]);
         }
 
         int k = 0;
-        int f1 = 0;
-        for (int i = 0; i < v - (columns + 1); i++)
+        for (int i = 1; i <= meridians; i++)
         {
-            if (f1 < columns)
+            triangles[k] = 0;
+            triangles[k + 1] = i;
+
+            if (i == meridians)
             {
-                triangles[k] = i;
-                triangles[k + 1] = i + (columns + 1);
-                triangles[k + 2] = i + 1;
-                k += 3;
-                f1++;
+                triangles[k + 2] = i - (meridians - 1);
             }
             else
             {
-                f1 = 0;
+                triangles[k + 2] = i + 1;
             }
 
+            k += 3;
         }
 
-        int k2 = rows * columns * 3;
-        int f2 = 0;
-        for (int i = 1; i < v - (columns + 1); i++)
+        int k2 = meridians * 3;
+        for (int i = meridians + 2; i <= meridians * 2 + 1; i++)
         {
-            if (f2 < columns)
+            triangles[k2] = meridians + 1;
+            triangles[k2 + 1] = i;
+
+            if (i == meridians * 2 + 1)
             {
-                triangles[k2] = i;
-                triangles[k2 + 1] = i + columns;
-                triangles[k2 + 2] = i + (columns + 1);
-                k2 += 3;
-                f2++;
+                triangles[k2 + 2] = i - (meridians - 1);
             }
             else
             {
-                f2 = 0;
+                triangles[k2 + 2] = i + 1;
             }
+
+            k2 += 3;
         }
 
         Mesh msh = new Mesh();                          // Création et remplissage du Mesh
