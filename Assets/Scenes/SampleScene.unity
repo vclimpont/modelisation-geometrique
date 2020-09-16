@@ -290,7 +290,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: -0, y: 0.000000014901159, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -7.61}
+  m_LocalPosition: {x: -0, y: 1, z: -43.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -307,12 +307,12 @@ GameObject:
   - component: {fileID: 1361824299}
   - component: {fileID: 1361824300}
   m_Layer: 0
-  m_Name: GameObject (1)
+  m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1361824299
 Transform:
   m_ObjectHideFlags: 0
@@ -343,6 +343,56 @@ MonoBehaviour:
   meridians: 10
   height: 10
   ray: 5
+--- !u!1 &1474565746
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1474565747}
+  - component: {fileID: 1474565748}
+  m_Layer: 0
+  m_Name: Sphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1474565747
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474565746}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.8808689, y: 1.3870645, z: 5.925168}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1474565748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474565746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a69e35ab45b2ca4e8c5579b9d053e5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  point: {fileID: 4134898477069444760, guid: b0b0e6cdd8c47e14684b558b6fb2c881, type: 3}
+  mat: {fileID: 2100000, guid: f23358603a796c64a86358762732328a, type: 2}
+  meridians: 10
+  parallels: 10
+  ray: 10
+  meridianTroncStart: 0
+  meridianTroncEnd: 0
 --- !u!1 &1663902898
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,7 +404,7 @@ GameObject:
   - component: {fileID: 1663902899}
   - component: {fileID: 1663902900}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
