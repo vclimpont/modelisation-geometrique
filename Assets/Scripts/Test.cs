@@ -24,9 +24,8 @@ public class Test : MonoBehaviour
         gameObject.AddComponent<MeshRenderer>();
 
         ReadFile();
-
+        CenterAndNormalizeObject();
         
-
 
         //for (int i = 0; i < vertices.Length; i++)
         //{
@@ -48,9 +47,42 @@ public class Test : MonoBehaviour
         gameObject.GetComponent<MeshRenderer>().material = mat;
     }
 
-    void CenterObject()
+    void CenterAndNormalizeObject()
     {
+        Vector3 center = Vector3.zero;
 
+        for(int i = 0; i < vertices.Length; i++)
+        {
+            center += vertices[i];
+        }
+
+        center /= vertices.Length;
+        float max = 0;
+
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            vertices[i] -= center;
+            Vector3 v = vertices[i];
+
+            if(Mathf.Abs(v.x) > max)
+            {
+                max = Mathf.Abs(v.x);
+            }
+            if (Mathf.Abs(v.y) > max)
+            {
+                max = Mathf.Abs(v.y);
+            }
+            if (Mathf.Abs(v.z) > max)
+            {
+                max = Mathf.Abs(v.z);
+            }
+        }
+
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            vertices[i] /= max;
+        }
+        Debug.Log(center);
     }
 
     void ReadFile()
