@@ -45,14 +45,16 @@ public class Sphere : MonoBehaviour
             {
                 if(i % (meridians + 1) == meridianTroncStart)
                 {
-                    i += (meridianTroncEnd - meridianTroncStart);
                     triangles[q] = i;
-                    triangles[q + 1] = i + meridians + 1;
-                    triangles[q + 2] = i - (meridians - 1);
+                    triangles[q + 1] = i - meridianTroncStart;
+                    triangles[q + 2] = i - (meridians + 1) - meridianTroncStart; 
 
-                    triangles[q + 3] = i - (meridians - 1);
-                    triangles[q + 4] = i + meridians + 1;
-                    triangles[q + 5] = i + 2;
+                    triangles[q + 3] = i;
+                    triangles[q + 4] = i - (meridians + 1) - meridianTroncStart;
+                    triangles[q + 5] = i - (meridians + 1);
+
+                    i += (meridianTroncEnd - meridianTroncStart);
+                    q += 6;
                 }
                 else
                 {
