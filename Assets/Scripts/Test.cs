@@ -14,6 +14,7 @@ public class Test : MonoBehaviour
     private Vector3[] vertices;
     private int[] triangles;
     private int[] facettes;
+    private Vector3[] normales;
 
 
 
@@ -25,6 +26,7 @@ public class Test : MonoBehaviour
 
         ReadFile();
         CenterAndNormalizeObject();
+        CreateNormales();
         
 
         //for (int i = 0; i < vertices.Length; i++)
@@ -45,6 +47,11 @@ public class Test : MonoBehaviour
 
         gameObject.GetComponent<MeshFilter>().mesh = msh;           // Remplissage du Mesh et ajout du matériel
         gameObject.GetComponent<MeshRenderer>().material = mat;
+    }
+
+    void CreateNormales()
+    {
+        normales = new Vector3[triangles.Length / 3];
     }
 
     void CenterAndNormalizeObject()
