@@ -15,6 +15,7 @@ public class Test : MonoBehaviour
     private int[] triangles;
     private int[] facettes;
     private Vector3[] normales;
+    private float[] nbNormales;
 
 
 
@@ -26,8 +27,8 @@ public class Test : MonoBehaviour
 
         ReadFile();
         CenterAndNormalizeObject();
-        CreateNormales();
-        
+
+
 
         //for (int i = 0; i < vertices.Length; i++)
         //{
@@ -38,12 +39,24 @@ public class Test : MonoBehaviour
         //{
         //    Debug.Log(i + " : " + triangles[i]);
         //}
+    }
 
+    void Update()
+    {
+        CreateNormales();
+        AverageNormals();
 
         Mesh msh = new Mesh();                          // Création et remplissage du Mesh
 
+        //for (int i = 0; i < normales.Length; i++)
+        //{
+        //    //Debug.Log(i + " : " + normales[i]);
+        //    Debug.DrawLine(vertices[i], vertices[i] + normales[i], Color.green);
+        //}
+
         msh.vertices = vertices;
         msh.triangles = triangles;
+        msh.normals = normales;
 
         gameObject.GetComponent<MeshFilter>().mesh = msh;           // Remplissage du Mesh et ajout du matériel
         gameObject.GetComponent<MeshRenderer>().material = mat;
@@ -51,7 +64,63 @@ public class Test : MonoBehaviour
 
     void CreateNormales()
     {
-        normales = new Vector3[triangles.Length / 3];
+        normales = new Vector3[vertices.Length];
+        for (int i = 0; i < normales.Length; i++) normales[i] = new Vector3(0, 0, 0);
+
+        nbNormales = new float[vertices.Length];
+        for (int i = 0; i < nbNormales.Length; i++) nbNormales[i] = 0f;
+
+        int k = 0;
+        for(int i = 0; i < normales.Length; i++)
+        {
+            int i1, i2, i3;
+            i1 = triangles[k];
+            i2 = triangles[k + 1];
+            i3 = triangles[k + 2];
+
+            Vector3 a = GetVectorFrom(vertices[i1], vertices[i2]);
+            Vector3 b = GetVectorFrom(vertices[i1], vertices[i3]);
+            Vector3 c = CrossProduct(a, b);
+
+            normales[i1] += c;
+            normales[i2] += c;
+            normales[i3] += c;
+            nbNormales[i1] += 1;
+            nbNormales[i2] += 1;
+            nbNormales[i3] += 1;
+            k += 3;
+        }
+    }
+
+    void AverageNormals()
+    {
+        for (int i = 0; i < normales.Length; i++)
+        {
+            normales[i] = (normales[i] / nbNormales[i]).normalized;
+        }
+    }
+
+    Vector3 GetVectorFrom(Vector3 p1, Vector3 p2)
+    {
+        float x, y, z;
+
+        x = p2.x - p1.x;
+        y = p2.y - p1.y;
+        z = p2.z - p1.z;
+
+        return new Vector3(x, y, z);
+    }
+
+    Vector3 CrossProduct(Vector3 a, Vector3 b)
+    {
+        float x, y, z;
+
+        x = (a.y * b.z)  - (a.z * b.y);
+        y = (a.z * b.x) - (a.x * b.z);
+        z = (a.x * b.y) - (a.y * b.x);
+
+        Vector3 n = new Vector3(x, y, z);
+        return n;
     }
 
     void CenterAndNormalizeObject()
