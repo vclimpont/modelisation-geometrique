@@ -8,6 +8,7 @@ public class Grid
     private List<Cube> cubesRightBot;
     private List<Cube> cubesLeftTop;
     private List<Cube> cubesRightTop;
+    private List<Cube> activeCubes;
     private int nbCubesPerRows;
     private Vector3 minPos;
     private Vector3 maxPos;
@@ -27,6 +28,8 @@ public class Grid
         cellSize = GetMaxDistFromDimension() / nbCubesPerRows;
         dimSize = (nbCubesPerRows * cellSize) / 2;
         offset = cellSize / 2f;
+
+        activeCubes = new List<Cube>();
 
         CreateCubes();
     }
@@ -127,6 +130,28 @@ public class Grid
         }
     }
 
+    List<Cube> GetActiveCubesFrom(List<Cube> partCubes)
+    {
+        List<Cube> _activeCubes = new List<Cube>();
+        foreach (Cube c in partCubes)
+        {
+            if (c.Active)
+            {
+                _activeCubes.Add(c);
+            }
+        }
+
+        return _activeCubes;
+    }
+
+    public void SetActiveCubesInGrid()
+    {
+        activeCubes.AddRange(GetActiveCubesFrom(cubesLeftBot));
+        activeCubes.AddRange(GetActiveCubesFrom(cubesRightBot));
+        activeCubes.AddRange(GetActiveCubesFrom(cubesLeftTop));
+        activeCubes.AddRange(GetActiveCubesFrom(cubesRightTop));
+    }
+
     void DrawPartitionCubesGizmos(List<Cube> partCubes)
     {
         foreach (Cube c in partCubes)
@@ -176,4 +201,9 @@ public class Grid
         return drawGrid;
     }
 
+
+    public List<Cube> GetActiveCubes()
+    {
+        return activeCubes;
+    }
 }

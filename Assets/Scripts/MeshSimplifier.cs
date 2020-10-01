@@ -15,9 +15,17 @@ public class MeshSimplifier
 
     public void PartitionVerticesInGrid()
     {
-        foreach(Vector3 v in vertices)
+        for(int i = 0; i < vertices.Length; i++)
         {
-            grid.FindCubeOfVertice(v).AddVertice(v);
+            grid.FindCubeOfVertice(vertices[i]).AddVertice(i, vertices[i]);
+        }
+    }
+
+    public void AverageVerticesInCubes()
+    {
+        foreach(Cube c in grid.GetActiveCubes())
+        {
+            c.SetAvgVertice();
         }
     }
 }

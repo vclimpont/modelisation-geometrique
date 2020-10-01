@@ -30,12 +30,16 @@ public class Test : MonoBehaviour
         grid.SetDrawGrid(true);
 
         ReadFile();
-        WriteFile();
+        //WriteFile();
         CenterAndNormalizeObject();
 
         mshSimplifier = new MeshSimplifier(vertices, grid);
         mshSimplifier.PartitionVerticesInGrid();
-        grid.LogVerticesOfCubes();
+        grid.SetActiveCubesInGrid();
+        mshSimplifier.AverageVerticesInCubes();
+        //grid.LogVerticesOfCubes();
+        ReindexTriangles();
+        RemoveDegeneratedTriangles();
 
         msh = new Mesh();
         msh.vertices = vertices;
@@ -51,6 +55,56 @@ public class Test : MonoBehaviour
         AverageNormals();
 
         msh.normals = normales;
+    }
+
+    void ReindexTriangles()
+    {
+        foreach(Cube c in grid.GetActiveCubes())    // for each cube with vertices in it
+        {
+            foreach(int id in c.GetVertices().Keys) // for each index of vertice
+            {
+                for(int i = 0; i < triangles.Length; i++) // for each triangle
+                {
+                    if(triangles[i] == id)
+                    {
+                        triangles[i] = c.IdVertice;
+                    }
+                }
+            }
+        }
+    }
+
+    void RemoveDegeneratedTriangles()
+    {
+        int k = 0;
+        for(int i = 0; i < triangles.Length; i+=3)
+        {
+            if(!IsTriangleValid(triangles[i], triangles[i + 1], triangles[i + 2]))
+            {
+                triangles[i] = -1;
+                triangles[i + 1] = -1;
+                triangles[i + 2] = -1;
+                k += 3;
+            }
+        }
+
+        int[] newTriangles = new int[triangles.Length - k];
+        int j = 0;
+        for(int i = 0; i < triangles.Length; i++)
+        {
+            if(triangles[i] != -1)
+            {
+                newTriangles[j] = triangles[i];
+                j++;
+            }
+        }
+
+        triangles = newTriangles;
+    }
+
+    bool IsTriangleValid(int a, int b, int c)
+    {
+        return a != b && a != c && b != c;
     }
 
     void CreateNormales()
