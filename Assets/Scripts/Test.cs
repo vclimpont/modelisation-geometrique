@@ -16,6 +16,7 @@ public class Test : MonoBehaviour
     private int[] triangles;
     private Vector3[] normales;
     private Grid grid;
+    private MeshSimplifier mshSimplifier;
 
     private Mesh msh;
 
@@ -25,13 +26,16 @@ public class Test : MonoBehaviour
         gameObject.AddComponent<MeshFilter>();          // Creation d'un composant MeshFilter qui peut ensuite être visualisé
         gameObject.AddComponent<MeshRenderer>();
 
-        grid = new Grid(nbCubesPerRowsOnGrid, new Vector3(-1.1f, -1.1f, -1.1f), new Vector3(1.1f, 1.1f, 1.1f));
+        grid = new Grid(nbCubesPerRowsOnGrid, new Vector3(-1.25f, -1.25f, -1.25f), new Vector3(1.25f, 1.25f, 1.25f));
         grid.SetDrawGrid(true);
 
         ReadFile();
         WriteFile();
         CenterAndNormalizeObject();
 
+        mshSimplifier = new MeshSimplifier(vertices, grid);
+        mshSimplifier.PartitionVerticesInGrid();
+        grid.LogVerticesOfCubes();
 
         msh = new Mesh();
         msh.vertices = vertices;

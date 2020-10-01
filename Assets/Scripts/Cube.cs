@@ -5,34 +5,61 @@ using UnityEngine;
 public class Cube
 {
     private Vector3 center;
-    private Vector3[] vertices;
+    private float offset;
+    private List<Vector3> vertices;
+    private bool active;
 
-    public Cube(Vector3 center)
+    public Cube(Vector3 center, float offset)
     {
         this.center = center;
-        SaveVertices(0);
+        this.offset = offset;
+        active = false;
+
+        vertices = new List<Vector3>();
     }
 
-    void SaveVertices(float offset)
+    bool IsSuperiorToMin(Vector3 vertice)
     {
-        vertices = new Vector3[8];
-        float x = center.x;
-        float y = center.y;
-        float z = center.z;
+        Vector3 min = center - new Vector3(offset, offset, offset);
+        return vertice.x >= min.x && vertice.y >= min.y && vertice.z >= min.z;
+    }
 
-        vertices[0] = new Vector3(x - offset, y - offset, z - offset);
-        vertices[1] = new Vector3(x - offset, y - offset, z - offset);
-        vertices[2] = new Vector3(x - offset, y - offset, z - offset);
-        vertices[3] = new Vector3(x - offset, y - offset, z - offset);
-        vertices[4] = new Vector3(x - offset, y - offset, z - offset);
-        vertices[5] = new Vector3(x - offset, y - offset, z - offset);
-        vertices[6] = new Vector3(x - offset, y - offset, z - offset);
-        vertices[7] = new Vector3(x - offset, y - offset, z - offset);
+    bool IsInferiorToMax(Vector3 vertice)
+    {
+        Vector3 max = center + new Vector3(offset, offset, offset);
+        return vertice.x <= max.x && vertice.y <= max.y && vertice.z <= max.z;
+    }
+
+    public bool ContainsVertice(Vector3 vertice)
+    {
+        return IsSuperiorToMin(vertice) && IsInferiorToMax(vertice);
+    }
+
+    public void AddVertice(Vector3 v)
+    {
+        vertices.Add(v);
+    }
+
+    public void LogVertices()
+    {
+        string s = "";
+
+        foreach (Vector3 v in vertices)
+        {
+            s += (v + " ");
+        }
+        Debug.Log("Cube center : " + center + " | " + s);
     }
 
     public Vector3 Center
     {
         get { return center; }
         set { center = value; }
+    }
+
+    public bool Active
+    {
+        get { return active; }
+        set { active = value; }
     }
 }

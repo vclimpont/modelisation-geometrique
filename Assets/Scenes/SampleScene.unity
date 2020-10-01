@@ -256,9 +256,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3165db676c287f48be7676ae16bccef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objName: buddha
+  objName: triceratops
   mat: {fileID: 2100000, guid: f23358603a796c64a86358762732328a, type: 2}
-  nbCubesPerRowsOnGrid: 10
+  nbCubesPerRowsOnGrid: 25
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
