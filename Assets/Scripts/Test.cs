@@ -10,10 +10,12 @@ public class Test : MonoBehaviour
 
     [SerializeField] private string objName = "";
     [SerializeField] private Material mat = null;
+    [SerializeField] private int nbCubesPerRowsOnGrid = 0;
 
     private Vector3[] vertices;
     private int[] triangles;
     private Vector3[] normales;
+    private Grid grid;
 
     private Mesh msh;
 
@@ -23,8 +25,11 @@ public class Test : MonoBehaviour
         gameObject.AddComponent<MeshFilter>();          // Creation d'un composant MeshFilter qui peut ensuite être visualisé
         gameObject.AddComponent<MeshRenderer>();
 
+        grid = new Grid(nbCubesPerRowsOnGrid, new Vector3(-1.1f, -1.1f, -1.1f), new Vector3(1.1f, 1.1f, 1.1f));
+        grid.SetDrawGrid(true);
+
         ReadFile();
-        //WriteFile();
+        WriteFile();
         CenterAndNormalizeObject();
 
 
@@ -224,4 +229,11 @@ public class Test : MonoBehaviour
     }
 
 
+    void OnDrawGizmos()
+    {
+        if(grid != null && grid.GetDrawGrid())
+        {
+            grid.DrawGridGizmos();
+        }
+    }
 }
